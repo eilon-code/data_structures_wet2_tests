@@ -11,9 +11,10 @@ class command:
             command.command_dict[2] = self.num_ships
             command.command_dict[3] = self.pay
             command.command_dict[4] = self.get_money
-            command.command_dict[5] = self.get_rank
-            command.command_dict[6] = self.unite
-            command.command_dict[7] = self.pirate_argument
+            command.command_dict[5] = self.unite
+            command.command_dict[6] = self.pirate_argument
+            command.command_dict[7] = self.get_rank
+
 
     fleet_id_range = 10
     pirate_id_range = 10
@@ -72,8 +73,9 @@ class command:
         )
 
     @staticmethod
-    def generate():
-        index = random.randint(0, len(command.command_dict)-1)
+    def generate(add_rank_tests):
+        change = 0 if add_rank_tests else 1
+        index = random.randint(0, len(command.command_dict)-1-change)
         string = command.command_dict[index]()
         return string
 
@@ -96,13 +98,13 @@ class command:
         command.pirate_money_range = 100
 
 
-def generate(length=100):
+def generate(length=100, add_rank_tests=True):
     command()
     command.reset()
     string = ""
     for j in range(4):
         for i in range(length // 5):
-            string += command.generate() + "\n"
+            string += command.generate(add_rank_tests) + "\n"
         command.sizeup_fleet()
         command.sizeup_pirate()
         command.sizeup_pirate_money()
